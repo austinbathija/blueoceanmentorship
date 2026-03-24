@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  role          Role      @default(STUDENT)
+  currentPhase  Int       @default(0)
+  supabaseId    String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  completions   StudentCompletion[]
+}
+
+enum Role {
+  ADMIN
+  COACH
+  STUDENT
+}
+
+model ChecklistItem {
+  id          String    @id @default(cuid())
+  text        String
+  phase       Int
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  completions StudentCompletion[]
+}
+
+model StudentCompletion {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checklistItemId String
+  checklistItem   ChecklistItem @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
+  completed       Boolean   @default(false)
+  completedAt     DateTime?
+  completedById   String?
+  createdAt       DateTime  @default(now())
+
+  @@unique([userId, checklistItemId])
+}
+
+model InviteCode {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  used        Boolean   @default(false)
+  usedBy      String?
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+}
