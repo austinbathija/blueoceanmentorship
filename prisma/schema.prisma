@@ -15,6 +15,9 @@ model User {
   role          Role      @default(STUDENT)
   currentPhase  Int       @default(0)
   supabaseId    String    @unique
+  mentorshipGuideUrl String?
+  storeUrl           String?
+  miroUrl            String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

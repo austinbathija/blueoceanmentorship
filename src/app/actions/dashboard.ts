@@ -72,3 +72,28 @@ export async function toggleCompletionForStudent(
     },
   });
 }
+
+export async function updateStudentLinks(
+  mentorshipGuideUrl: string | null,
+  storeUrl: string | null
+) {
+  const user = await getCurrentUser();
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { mentorshipGuideUrl, storeUrl },
+  });
+}
+
+export async function updateMiroForStudent(studentId: string, miroUrl: string | null) {
+  const currentUser = await getCurrentUser();
+
+  if (currentUser.role !== "COACH" && currentUser.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.user.update({
+    where: { id: studentId },
+    data: { miroUrl },
+  });
+}

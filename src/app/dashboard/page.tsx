@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/header";
 import { PhaseContent } from "@/components/phase-content";
+import { StudentLinks } from "@/components/student-links";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -38,6 +39,12 @@ export default async function DashboardPage() {
             Track your progress through the Blue Ocean Program.
           </p>
         </div>
+
+        <StudentLinks
+          mentorshipGuideUrl={user.mentorshipGuideUrl}
+          storeUrl={user.storeUrl}
+          miroUrl={user.miroUrl}
+        />
 
         <PhaseContent currentPhase={user.currentPhase} items={items} />
       </main>

@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { PhaseContent } from "@/components/phase-content";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
+import { CoachMiroInput } from "@/components/coach-miro-input";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -61,7 +62,27 @@ export default async function StudentDetailPage({ params }: Props) {
 
         <div className="mb-6">
           <h2 className="text-xl font-bold text-foreground">{student.name}</h2>
-          <p className="text-sm text-muted">{student.email}</p>
+          <p className="text-sm text-muted mb-3">{student.email}</p>
+
+          <div className="rounded-lg border border-border bg-card p-4 space-y-2">
+            {student.mentorshipGuideUrl && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted w-36 shrink-0">Mentorship Guide</span>
+                <a href={student.mentorshipGuideUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline truncate">
+                  {student.mentorshipGuideUrl}
+                </a>
+              </div>
+            )}
+            {student.storeUrl && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted w-36 shrink-0">Store Link</span>
+                <a href={student.storeUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline truncate">
+                  {student.storeUrl}
+                </a>
+              </div>
+            )}
+            <CoachMiroInput studentId={student.id} miroUrl={student.miroUrl} />
+          </div>
         </div>
 
         <PhaseContent
