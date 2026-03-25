@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { PhaseContent } from "@/components/phase-content";
 import { StudentLinks } from "@/components/student-links";
 import { CallRecordingForm } from "@/components/call-recording-form";
+import { DisableCopy } from "@/components/disable-copy";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -41,6 +42,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen">
+      {user.role === "STUDENT" && <DisableCopy />}
       <Header userName={user.name} userRole={user.role} />
 
       <main className="mx-auto max-w-3xl px-4 py-8">
