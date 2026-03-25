@@ -23,8 +23,6 @@ export function CallRecordingForm({ studentId, recordings, canEdit }: CallRecord
   const [url, setUrl] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, startTransition] = useTransition();
-  const [visiblePasswords, setVisiblePasswords] = useState<Set<string>>(new Set());
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !url.trim()) return;
@@ -41,15 +39,6 @@ export function CallRecordingForm({ studentId, recordings, canEdit }: CallRecord
   function handleDelete(id: string) {
     startTransition(async () => {
       await deleteCallRecording(id);
-    });
-  }
-
-  function togglePasswordVisibility(id: string) {
-    setVisiblePasswords((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
     });
   }
 
@@ -136,14 +125,8 @@ export function CallRecordingForm({ studentId, recordings, canEdit }: CallRecord
                   <div className="mt-1 flex items-center gap-1.5">
                     <span className="text-xs text-muted">Password:</span>
                     <span className="text-xs text-foreground font-mono">
-                      {visiblePasswords.has(rec.id) ? rec.password : "••••••"}
+                      {rec.password}
                     </span>
-                    <button
-                      onClick={() => togglePasswordVisibility(rec.id)}
-                      className="text-xs text-muted hover:text-foreground transition-colors"
-                    >
-                      {visiblePasswords.has(rec.id) ? "Hide" : "Show"}
-                    </button>
                   </div>
                 )}
                 <p className="text-xs text-muted mt-0.5">
