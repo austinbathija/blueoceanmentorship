@@ -6,6 +6,7 @@ import { CallRecordingForm } from "@/components/call-recording-form";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { CoachMiroInput } from "@/components/coach-miro-input";
+import { Footer } from "@/components/footer";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -57,10 +58,10 @@ export default async function StudentDetailPage({ params }: Props) {
   }));
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header userName={currentUser.name} userRole={currentUser.role} />
 
-      <main className="mx-auto max-w-3xl px-4 py-8">
+      <main className="mx-auto max-w-3xl px-4 py-8 flex-1">
         <Link
           href="/coach"
           className="inline-flex items-center gap-1 text-sm text-muted hover:text-foreground transition-colors mb-4"
@@ -106,6 +107,8 @@ export default async function StudentDetailPage({ params }: Props) {
           studentId={student.id}
         />
       </main>
+
+      <Footer />
     </div>
   );
 }

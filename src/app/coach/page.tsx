@@ -4,6 +4,7 @@ import { getPhaseLabel } from "@/lib/phases";
 import { Header } from "@/components/header";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Footer } from "@/components/footer";
 
 export default async function CoachPage() {
   const user = await getCurrentUser();
@@ -26,10 +27,10 @@ export default async function CoachPage() {
   const totalItems = await prisma.checklistItem.count();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header userName={user.name} userRole={user.role} />
 
-      <main className="mx-auto max-w-3xl px-4 py-8">
+      <main className="mx-auto max-w-3xl px-4 py-8 flex-1">
         <h2 className="text-xl font-bold text-foreground">Students</h2>
 
         {students.length === 0 ? (
@@ -90,6 +91,8 @@ export default async function CoachPage() {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { ChecklistEditor } from "@/components/admin/checklist-editor";
 import { InviteCodesPanel } from "@/components/admin/invite-codes";
 import { UserManagement } from "@/components/admin/user-management";
 import { redirect } from "next/navigation";
+import { Footer } from "@/components/footer";
 
 export default async function AdminPage() {
   const user = await getCurrentUser();
@@ -26,10 +27,10 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header userName={user.name} userRole={user.role} />
 
-      <main className="mx-auto max-w-4xl px-4 py-8 space-y-12">
+      <main className="mx-auto max-w-4xl px-4 py-8 space-y-12 flex-1">
         <ChecklistEditor
           items={checklistItems.map((item) => ({
             id: item.id,
@@ -62,6 +63,8 @@ export default async function AdminPage() {
           currentUserId={user.id}
         />
       </main>
+
+      <Footer />
     </div>
   );
 }
