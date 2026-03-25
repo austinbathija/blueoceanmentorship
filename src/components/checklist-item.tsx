@@ -8,6 +8,7 @@ interface ChecklistItemRowProps {
   text: string;
   completed: boolean;
   studentId?: string;
+  readOnly?: boolean;
   onToggle?: (itemId: string, newValue: boolean) => void;
 }
 
@@ -16,11 +17,13 @@ export function ChecklistItemRow({
   text,
   completed,
   studentId,
+  readOnly,
   onToggle,
 }: ChecklistItemRowProps) {
   const [isPending, startTransition] = useTransition();
 
   function handleToggle() {
+    if (readOnly) return;
     const newValue = !completed;
     onToggle?.(id, newValue);
 
@@ -35,6 +38,26 @@ export function ChecklistItemRow({
         onToggle?.(id, !newValue);
       }
     });
+  }
+
+  if (readOnly) {
+    return (
+      <div className="flex items-center gap-3 px-5 py-3">
+        <input
+          type="checkbox"
+          checked={completed}
+          disabled
+          className="mt-0.5 opacity-60 cursor-default"
+        />
+        <span
+          className={`text-sm ${
+            completed ? "text-muted line-through" : "text-foreground"
+          }`}
+        >
+          {text}
+        </span>
+      </div>
+    );
   }
 
   return (

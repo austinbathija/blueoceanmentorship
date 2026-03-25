@@ -17,9 +17,10 @@ interface PhaseContentProps {
   currentPhase: number;
   items: PhaseItem[];
   studentId?: string;
+  readOnly?: boolean;
 }
 
-export function PhaseContent({ currentPhase, items: initialItems, studentId }: PhaseContentProps) {
+export function PhaseContent({ currentPhase, items: initialItems, studentId, readOnly }: PhaseContentProps) {
   const [selectedPhase, setSelectedPhase] = useState(currentPhase);
   const [isPending, startTransition] = useTransition();
   const [completedIds, setCompletedIds] = useState<Set<string>>(
@@ -162,6 +163,7 @@ export function PhaseContent({ currentPhase, items: initialItems, studentId }: P
                   text={item.text}
                   completed={item.completed}
                   studentId={studentId}
+                  readOnly={readOnly}
                   onToggle={handleItemToggle}
                 />
               ))

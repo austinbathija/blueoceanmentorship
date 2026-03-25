@@ -104,7 +104,7 @@ export default async function StudentDetailPage({ params }: Props) {
         <PhaseContent
           currentPhase={student.currentPhase}
           items={items}
-          studentId={student.id}
+          readOnly
         />
       </main>
 
