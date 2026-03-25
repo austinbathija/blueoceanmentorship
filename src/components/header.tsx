@@ -58,7 +58,7 @@ export function Header({ userName, userRole, dateJoined }: HeaderProps) {
           rel="noopener noreferrer"
           className="hover:underline font-bold"
         >
-          SKOOL COMMUNITY
+          SKOOL MODULES
         </a>
         <span className="text-white/40 font-bold">|</span>
         <a
@@ -67,7 +67,7 @@ export function Header({ userName, userRole, dateJoined }: HeaderProps) {
           rel="noopener noreferrer"
           className="hover:underline font-bold"
         >
-          DISCORD
+          DISCORD COMMUNITY
         </a>
       </div>
       <header className="border-b border-border bg-card">
