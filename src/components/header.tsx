@@ -56,16 +56,16 @@ export function Header({ userName, userRole, dateJoined }: HeaderProps) {
           href="https://www.skool.com/blueocean"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline font-medium"
+          className="hover:underline font-bold"
         >
           SKOOL COMMUNITY
         </a>
-        <span className="text-white/40">|</span>
+        <span className="text-white/40 font-bold">|</span>
         <a
           href="https://discord.gg/JJ6pwFDU"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline font-medium"
+          className="hover:underline font-bold"
         >
           DISCORD
         </a>
