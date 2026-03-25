@@ -51,7 +51,7 @@ export function Header({ userName, userRole, dateJoined }: HeaderProps) {
 
   return (
     <>
-      <div className="bg-accent text-white text-center text-sm py-2 px-4 flex items-center justify-center gap-4">
+      <div className="bg-accent text-white text-center text-sm font-bold py-2 px-4 flex items-center justify-center gap-4">
         <a
           href="https://www.skool.com/blueocean"
           target="_blank"
