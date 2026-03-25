@@ -85,6 +85,41 @@ export async function updateStudentLinks(
   });
 }
 
+export async function addCallRecording(title: string, url: string, password: string | null) {
+  const user = await getCurrentUser();
+
+  if (user.role !== "COACH" && user.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.callRecording.create({
+    data: {
+      title,
+      url,
+      password: password || null,
+      createdById: user.id,
+    },
+  });
+
+  revalidatePath("/coach");
+  revalidatePath("/dashboard");
+}
+
+export async function deleteCallRecording(id: string) {
+  const user = await getCurrentUser();
+
+  if (user.role !== "COACH" && user.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.callRecording.delete({
+    where: { id },
+  });
+
+  revalidatePath("/coach");
+  revalidatePath("/dashboard");
+}
+
 export async function updateMiroForStudent(studentId: string, miroUrl: string | null) {
   const currentUser = await getCurrentUser();
 

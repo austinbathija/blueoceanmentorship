@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/header";
 import { PhaseContent } from "@/components/phase-content";
 import { StudentLinks } from "@/components/student-links";
+import { CallRecordingForm } from "@/components/call-recording-form";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -26,6 +27,18 @@ export default async function DashboardPage() {
     phase: item.phase,
   }));
 
+  const callRecordings = await prisma.callRecording.findMany({
+    orderBy: { createdAt: "desc" },
+    select: { id: true, title: true, url: true, password: true, createdAt: true },
+  });
+
+  const serializedRecordings = callRecordings.map((r) => ({
+    ...r,
+    createdAt: r.createdAt.toISOString(),
+  }));
+
+  const canEditRecordings = user.role === "COACH" || user.role === "ADMIN";
+
   return (
     <div className="min-h-screen">
       <Header userName={user.name} userRole={user.role} />
@@ -39,6 +52,12 @@ export default async function DashboardPage() {
             Track your progress through the Blue Ocean Program.
           </p>
         </div>
+
+        {serializedRecordings.length > 0 && (
+          <div className="mb-6">
+            <CallRecordingForm recordings={serializedRecordings} canEdit={canEditRecordings} />
+          </div>
+        )}
 
         <StudentLinks
           mentorshipGuideUrl={user.mentorshipGuideUrl}

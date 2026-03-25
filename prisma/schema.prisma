@@ -21,7 +21,8 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  completions   StudentCompletion[]
+  completions    StudentCompletion[]
+  callRecordings CallRecording[]
 }
 
 enum Role {
@@ -53,6 +54,16 @@ model StudentCompletion {
   createdAt       DateTime  @default(now())
 
   @@unique([userId, checklistItemId])
+}
+
+model CallRecording {
+  id          String    @id @default(cuid())
+  title       String
+  url         String
+  password    String?
+  createdById String
+  createdBy   User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
 }
 
 model InviteCode {
