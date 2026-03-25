@@ -44,7 +44,11 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {user.role === "STUDENT" && <DisableCopy />}
-      <Header userName={user.name} userRole={user.role} />
+      <Header
+        userName={user.name}
+        userRole={user.role}
+        dateJoined={user.dateJoined ? user.dateJoined.toISOString().split("T")[0] : null}
+      />
 
       <main className="mx-auto max-w-3xl px-4 py-8 flex-1">
         <div className="mb-6">

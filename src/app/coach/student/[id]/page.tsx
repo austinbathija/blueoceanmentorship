@@ -6,6 +6,7 @@ import { CallRecordingForm } from "@/components/call-recording-form";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { CoachMiroInput } from "@/components/coach-miro-input";
+import { CoachDateJoinedInput } from "@/components/coach-date-joined-input";
 import { Footer } from "@/components/footer";
 
 interface Props {
@@ -94,6 +95,10 @@ export default async function StudentDetailPage({ params }: Props) {
               </div>
             )}
             <CoachMiroInput studentId={student.id} miroUrl={student.miroUrl} />
+            <CoachDateJoinedInput
+              studentId={student.id}
+              dateJoined={student.dateJoined ? student.dateJoined.toISOString().split("T")[0] : null}
+            />
           </div>
         </div>
 
