@@ -5,8 +5,23 @@ import { updateSession } from "@/lib/supabase/middleware";
 const publicRoutes = ["/login", "/signup"];
 
 export async function middleware(request: NextRequest) {
-  const { user, supabaseResponse } = await updateSession(request);
   const pathname = request.nextUrl.pathname;
+
+  let user = null;
+  let supabaseResponse = NextResponse.next({ request });
+
+  try {
+    const session = await updateSession(request);
+    user = session.user;
+    supabaseResponse = session.supabaseResponse;
+  } catch (error) {
+    console.error("Middleware auth error:", error);
+    // If auth fails, allow public routes to proceed; redirect others to login
+    if (publicRoutes.some((route) => pathname.startsWith(route))) {
+      return NextResponse.next({ request });
+    }
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   // Allow public routes
   if (publicRoutes.some((route) => pathname.startsWith(route))) {

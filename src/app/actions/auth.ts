@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -112,7 +112,7 @@ export async function signup(formData: FormData) {
     });
   } catch (dbError) {
     // Clean up Supabase auth user if DB operations fail
-    await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
+    await getSupabaseAdmin().auth.admin.deleteUser(authData.user.id);
     return { error: "Failed to create account. Please try again." };
   }
 
