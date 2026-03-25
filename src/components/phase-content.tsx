@@ -94,7 +94,7 @@ export function PhaseContent({ currentPhase, items: initialItems, studentId }: P
         </div>
         <div className="w-full h-2 rounded-full bg-border overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-200 ${overallPercentage === 100 ? "bg-emerald-400" : "bg-accent"}`}
+            className="h-full rounded-full transition-all duration-200 bg-emerald-400"
             style={{ width: `${overallPercentage}%` }}
           />
         </div>
@@ -137,7 +137,7 @@ export function PhaseContent({ currentPhase, items: initialItems, studentId }: P
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-border overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-200 ${phaseComplete ? "bg-emerald-400" : "bg-accent"}`}
+                    className="h-full rounded-full transition-all duration-200 bg-emerald-400"
                     style={{ width: `${phasePercentage}%` }}
                   />
                 </div>
