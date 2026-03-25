@@ -38,8 +38,6 @@ export async function toggleCompletion(checklistItemId: string, completed: boole
       completedById: user.id,
     },
   });
-
-  revalidatePath("/dashboard");
 }
 
 export async function toggleCompletionForStudent(
@@ -73,6 +71,4 @@ export async function toggleCompletionForStudent(
       completedById: currentUser.id,
     },
   });
-
-  revalidatePath(`/coach/student/${studentId}`);
 }
