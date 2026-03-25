@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { Role } from "@prisma/client";
@@ -125,7 +125,7 @@ export async function deleteUser(userId: string) {
   });
 
   // Delete from Supabase Auth
-  await supabaseAdmin.auth.admin.deleteUser(user.supabaseId);
+  await getSupabaseAdmin().auth.admin.deleteUser(user.supabaseId);
 
   revalidatePath("/admin");
 }
