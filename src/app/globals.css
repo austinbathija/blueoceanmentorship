@@ -53,3 +53,12 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:hover {
   border-color: var(--accent);
 }
+
+/* Hide scrollbar for phase nav */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

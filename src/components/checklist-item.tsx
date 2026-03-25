@@ -21,7 +21,7 @@ export function ChecklistItemRow({
 
   function handleToggle() {
     const newValue = !completed;
-    setCompleted(newValue); // Optimistic update
+    setCompleted(newValue);
 
     startTransition(async () => {
       try {
@@ -31,14 +31,14 @@ export function ChecklistItemRow({
           await toggleCompletion(id, newValue);
         }
       } catch {
-        setCompleted(!newValue); // Revert on error
+        setCompleted(!newValue);
       }
     });
   }
 
   return (
     <label
-      className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-card ${
+      className={`flex cursor-pointer items-center gap-3 px-5 py-3 transition-colors hover:bg-background/50 ${
         isPending ? "opacity-70" : ""
       }`}
     >

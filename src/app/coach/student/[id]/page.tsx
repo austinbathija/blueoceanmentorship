@@ -1,8 +1,7 @@
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { PHASES, getPhaseLabel } from "@/lib/phases";
 import { Header } from "@/components/header";
-import { ChecklistSection } from "@/components/checklist-section";
+import { PhaseContent } from "@/components/phase-content";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -37,15 +36,13 @@ export default async function StudentDetailPage({ params }: Props) {
   ]);
 
   const completedIds = new Set(completions.map((c) => c.checklistItemId));
-  const totalItems = checklistItems.length;
-  const completedCount = completedIds.size;
 
-  const itemsByPhase = new Map<number, typeof checklistItems>();
-  for (const item of checklistItems) {
-    const existing = itemsByPhase.get(item.phase) || [];
-    existing.push(item);
-    itemsByPhase.set(item.phase, existing);
-  }
+  const items = checklistItems.map((item) => ({
+    id: item.id,
+    text: item.text,
+    completed: completedIds.has(item.id),
+    phase: item.phase,
+  }));
 
   return (
     <div className="min-h-screen">
@@ -62,43 +59,16 @@ export default async function StudentDetailPage({ params }: Props) {
           Back to Students
         </Link>
 
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-foreground">{student.name}</h2>
-            <p className="text-sm text-muted">{student.email}</p>
-          </div>
-          <p className="text-sm text-muted">
-            {getPhaseLabel(student.currentPhase)}
-          </p>
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-foreground">{student.name}</h2>
+          <p className="text-sm text-muted">{student.email}</p>
         </div>
 
-        <div className="mt-8 space-y-8">
-          {PHASES.map((phase) => {
-            const items = itemsByPhase.get(phase.value) || [];
-            if (items.length === 0) return null;
-
-            return (
-              <ChecklistSection
-                key={phase.value}
-                phaseLabel={getPhaseLabel(phase.value)}
-                items={items.map((item) => ({
-                  id: item.id,
-                  text: item.text,
-                  completed: completedIds.has(item.id),
-                }))}
-                studentId={student.id}
-              />
-            );
-          })}
-        </div>
-
-        <div className="mt-8 border-t border-border pt-4">
-          <p className="text-sm text-muted">
-            Progress: {completedCount}/{totalItems} items complete (
-            {totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0}
-            %)
-          </p>
-        </div>
+        <PhaseContent
+          currentPhase={student.currentPhase}
+          items={items}
+          studentId={student.id}
+        />
       </main>
     </div>
   );
