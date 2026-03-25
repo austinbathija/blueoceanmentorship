@@ -82,6 +82,7 @@ function SignupForm() {
               className="w-full rounded-lg border border-border bg-card px-3 py-2.5 text-foreground placeholder-muted/50 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               placeholder="••••••••"
             />
+            <p className="text-xs text-danger mt-1.5">Do not forget your password, you cannot change it</p>
           </div>
 
           <div>
@@ -97,10 +98,6 @@ function SignupForm() {
               className="w-full rounded-lg border border-border bg-card px-3 py-2.5 text-foreground placeholder-muted/50 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent uppercase"
               placeholder="Enter your invite code"
             />
-          </div>
-
-          <div className="rounded-lg bg-danger/10 border border-danger/20 px-4 py-3 text-sm text-danger font-medium text-center">
-            DO NOT FORGET YOUR PASSWORD, YOU CANNOT CHANGE IT
           </div>
 
           <button
