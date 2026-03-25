@@ -85,7 +85,7 @@ export async function updateStudentLinks(
   });
 }
 
-export async function addCallRecording(title: string, url: string, password: string | null) {
+export async function addCallRecording(studentId: string, title: string, url: string, password: string | null) {
   const user = await getCurrentUser();
 
   if (user.role !== "COACH" && user.role !== "ADMIN") {
@@ -97,11 +97,11 @@ export async function addCallRecording(title: string, url: string, password: str
       title,
       url,
       password: password || null,
-      createdById: user.id,
+      studentId,
     },
   });
 
-  revalidatePath("/coach");
+  revalidatePath(`/coach/student/${studentId}`);
   revalidatePath("/dashboard");
 }
 
@@ -112,11 +112,15 @@ export async function deleteCallRecording(id: string) {
     throw new Error("Unauthorized");
   }
 
+  const recording = await prisma.callRecording.findUnique({ where: { id } });
+
   await prisma.callRecording.delete({
     where: { id },
   });
 
-  revalidatePath("/coach");
+  if (recording) {
+    revalidatePath(`/coach/student/${recording.studentId}`);
+  }
   revalidatePath("/dashboard");
 }
 

@@ -2,7 +2,6 @@ import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getPhaseLabel } from "@/lib/phases";
 import { Header } from "@/components/header";
-import { CallRecordingForm } from "@/components/call-recording-form";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -26,25 +25,11 @@ export default async function CoachPage() {
 
   const totalItems = await prisma.checklistItem.count();
 
-  const callRecordings = await prisma.callRecording.findMany({
-    orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, url: true, password: true, createdAt: true },
-  });
-
-  const serializedRecordings = callRecordings.map((r) => ({
-    ...r,
-    createdAt: r.createdAt.toISOString(),
-  }));
-
   return (
     <div className="min-h-screen">
       <Header userName={user.name} userRole={user.role} />
 
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <div className="mb-8">
-          <CallRecordingForm recordings={serializedRecordings} canEdit={true} />
-        </div>
-
         <h2 className="text-xl font-bold text-foreground">Students</h2>
 
         {students.length === 0 ? (

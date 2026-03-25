@@ -61,8 +61,8 @@ model CallRecording {
   title       String
   url         String
   password    String?
-  createdById String
-  createdBy   User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  studentId   String
+  student     User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
 }
 

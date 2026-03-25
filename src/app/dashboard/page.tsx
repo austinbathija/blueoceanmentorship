@@ -8,13 +8,18 @@ import { CallRecordingForm } from "@/components/call-recording-form";
 export default async function DashboardPage() {
   const user = await getCurrentUser();
 
-  const [checklistItems, completions] = await Promise.all([
+  const [checklistItems, completions, callRecordings] = await Promise.all([
     prisma.checklistItem.findMany({
       orderBy: [{ phase: "asc" }, { sortOrder: "asc" }],
     }),
     prisma.studentCompletion.findMany({
       where: { userId: user.id, completed: true },
       select: { checklistItemId: true },
+    }),
+    prisma.callRecording.findMany({
+      where: { studentId: user.id },
+      orderBy: { createdAt: "desc" },
+      select: { id: true, title: true, url: true, password: true, createdAt: true },
     }),
   ]);
 
@@ -26,11 +31,6 @@ export default async function DashboardPage() {
     completed: completedIds.has(item.id),
     phase: item.phase,
   }));
-
-  const callRecordings = await prisma.callRecording.findMany({
-    orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, url: true, password: true, createdAt: true },
-  });
 
   const serializedRecordings = callRecordings.map((r) => ({
     ...r,
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
 
         {serializedRecordings.length > 0 && (
           <div className="mb-6">
-            <CallRecordingForm recordings={serializedRecordings} canEdit={canEditRecordings} />
+            <CallRecordingForm studentId={user.id} recordings={serializedRecordings} canEdit={canEditRecordings} />
           </div>
         )}
 

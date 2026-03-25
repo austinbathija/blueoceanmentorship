@@ -12,11 +12,12 @@ interface Recording {
 }
 
 interface CallRecordingFormProps {
+  studentId: string;
   recordings: Recording[];
   canEdit: boolean;
 }
 
-export function CallRecordingForm({ recordings, canEdit }: CallRecordingFormProps) {
+export function CallRecordingForm({ studentId, recordings, canEdit }: CallRecordingFormProps) {
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
@@ -29,7 +30,7 @@ export function CallRecordingForm({ recordings, canEdit }: CallRecordingFormProp
     if (!title.trim() || !url.trim()) return;
 
     startTransition(async () => {
-      await addCallRecording(title.trim(), url.trim(), password.trim() || null);
+      await addCallRecording(studentId, title.trim(), url.trim(), password.trim() || null);
       setTitle("");
       setUrl("");
       setPassword("");
@@ -55,7 +56,7 @@ export function CallRecordingForm({ recordings, canEdit }: CallRecordingFormProp
   return (
     <div className="rounded-lg border border-border bg-card p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-bold text-foreground">Call Recordings</h3>
+        <h3 className="text-sm font-bold text-foreground">1:1 Call Recordings</h3>
         {canEdit && !showForm && (
           <button
             onClick={() => setShowForm(true)}
@@ -70,14 +71,14 @@ export function CallRecordingForm({ recordings, canEdit }: CallRecordingFormProp
         <form onSubmit={handleSubmit} className="mb-4 space-y-2 rounded border border-border bg-background p-3">
           <input
             type="text"
-            placeholder="Title (e.g. Week 3 Group Call)"
+            placeholder="Title (e.g. Week 3 - 1:1 Call)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full rounded border border-border bg-card px-3 py-1.5 text-sm text-foreground outline-none focus:ring-1 focus:ring-foreground/20"
           />
           <input
             type="url"
-            placeholder="Link to recording"
+            placeholder="Link to call recording"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             className="w-full rounded border border-border bg-card px-3 py-1.5 text-sm text-foreground outline-none focus:ring-1 focus:ring-foreground/20"

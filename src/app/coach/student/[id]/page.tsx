@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Header } from "@/components/header";
 import { PhaseContent } from "@/components/phase-content";
+import { CallRecordingForm } from "@/components/call-recording-form";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { CoachMiroInput } from "@/components/coach-miro-input";
@@ -26,13 +27,18 @@ export default async function StudentDetailPage({ params }: Props) {
     notFound();
   }
 
-  const [checklistItems, completions] = await Promise.all([
+  const [checklistItems, completions, callRecordings] = await Promise.all([
     prisma.checklistItem.findMany({
       orderBy: [{ phase: "asc" }, { sortOrder: "asc" }],
     }),
     prisma.studentCompletion.findMany({
       where: { userId: student.id, completed: true },
       select: { checklistItemId: true },
+    }),
+    prisma.callRecording.findMany({
+      where: { studentId: student.id },
+      orderBy: { createdAt: "desc" },
+      select: { id: true, title: true, url: true, password: true, createdAt: true },
     }),
   ]);
 
@@ -43,6 +49,11 @@ export default async function StudentDetailPage({ params }: Props) {
     text: item.text,
     completed: completedIds.has(item.id),
     phase: item.phase,
+  }));
+
+  const serializedRecordings = callRecordings.map((r) => ({
+    ...r,
+    createdAt: r.createdAt.toISOString(),
   }));
 
   return (
@@ -83,6 +94,10 @@ export default async function StudentDetailPage({ params }: Props) {
             )}
             <CoachMiroInput studentId={student.id} miroUrl={student.miroUrl} />
           </div>
+        </div>
+
+        <div className="mb-6">
+          <CallRecordingForm studentId={student.id} recordings={serializedRecordings} canEdit={true} />
         </div>
 
         <PhaseContent
