@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0B0F17;
-  --foreground: #F8FAFC;
-  --muted: #94A3B8;
-  --card: #141921;
-  --border: #1E293B;
-  --accent: #1E3A5F;
-  --accent-hover: #38BDF8;
-  --danger: #EF4444;
+  --background: #FFFFFF;
+  --foreground: #37352F;
+  --muted: #9B9A97;
+  --card: #F7F6F3;
+  --border: #E9E9E7;
+  --accent: #2EAADC;
+  --accent-hover: #0B6E99;
+  --danger: #E03E3E;
 }
 
 @theme inline {
@@ -44,8 +44,8 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: #2EAADC;
+  border-color: #2EAADC;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
   transform: scale(1.05);
 }
