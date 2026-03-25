@@ -99,6 +99,10 @@ function SignupForm() {
             />
           </div>
 
+          <div className="rounded-lg bg-danger/10 border border-danger/20 px-4 py-3 text-sm text-danger font-medium text-center">
+            DO NOT FORGET YOUR PASSWORD, YOU CANNOT CHANGE IT
+          </div>
+
           <button
             type="submit"
             disabled={loading}
