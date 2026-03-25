@@ -5,7 +5,6 @@ import { PhaseContent } from "@/components/phase-content";
 import { StudentLinks } from "@/components/student-links";
 import { CallRecordingForm } from "@/components/call-recording-form";
 import { DisableCopy } from "@/components/disable-copy";
-import { Footer } from "@/components/footer";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -42,11 +41,11 @@ export default async function DashboardPage() {
   const canEditRecordings = user.role === "COACH" || user.role === "ADMIN";
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen">
       {user.role === "STUDENT" && <DisableCopy />}
       <Header userName={user.name} userRole={user.role} />
 
-      <main className="mx-auto max-w-3xl px-4 py-8 flex-1">
+      <main className="mx-auto max-w-3xl px-4 py-8">
         <div className="mb-6">
           <h2 className="text-xl font-bold text-foreground">
             Welcome back, {user.name.split(" ")[0]}
@@ -70,8 +69,6 @@ export default async function DashboardPage() {
 
         <PhaseContent currentPhase={user.currentPhase} items={items} />
       </main>
-
-      <Footer />
     </div>
   );
 }

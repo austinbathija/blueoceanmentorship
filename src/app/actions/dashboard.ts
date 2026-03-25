@@ -124,22 +124,6 @@ export async function deleteCallRecording(id: string) {
   revalidatePath("/dashboard");
 }
 
-export async function updateDateJoinedForStudent(studentId: string, dateStr: string | null) {
-  const currentUser = await getCurrentUser();
-
-  if (currentUser.role !== "COACH" && currentUser.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
-  await prisma.user.update({
-    where: { id: studentId },
-    data: { dateJoined: dateStr ? new Date(dateStr + "T00:00:00.000Z") : null },
-  });
-
-  revalidatePath(`/coach/student/${studentId}`);
-  revalidatePath("/dashboard/profile");
-}
-
 export async function updateMiroForStudent(studentId: string, miroUrl: string | null) {
   const currentUser = await getCurrentUser();
 

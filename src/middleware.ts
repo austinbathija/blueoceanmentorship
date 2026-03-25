@@ -58,11 +58,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Coaches should not access the student dashboard
-  if (pathname.startsWith("/dashboard") && role === "COACH") {
-    return NextResponse.redirect(new URL("/coach", request.url));
-  }
-
   // Root redirect
   if (pathname === "/") {
     if (role === "ADMIN") {
