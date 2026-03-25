@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useCallback, useTransition } from "react";
 import { PHASES } from "@/lib/phases";
 import { PhaseNav } from "./phase-nav";
 import { ChecklistItemRow } from "./checklist-item";
@@ -19,9 +19,30 @@ interface PhaseContentProps {
   studentId?: string;
 }
 
-export function PhaseContent({ currentPhase, items, studentId }: PhaseContentProps) {
+export function PhaseContent({ currentPhase, items: initialItems, studentId }: PhaseContentProps) {
   const [selectedPhase, setSelectedPhase] = useState(currentPhase);
   const [isPending, startTransition] = useTransition();
+  const [completedIds, setCompletedIds] = useState<Set<string>>(
+    () => new Set(initialItems.filter((i) => i.completed).map((i) => i.id))
+  );
+
+  const handleItemToggle = useCallback((itemId: string, newValue: boolean) => {
+    setCompletedIds((prev) => {
+      const next = new Set(prev);
+      if (newValue) {
+        next.add(itemId);
+      } else {
+        next.delete(itemId);
+      }
+      return next;
+    });
+  }, []);
+
+  // Derive items with current completion state
+  const items = initialItems.map((item) => ({
+    ...item,
+    completed: completedIds.has(item.id),
+  }));
 
   // Group items by phase
   const itemsByPhase: Record<number, PhaseItem[]> = {};
@@ -73,7 +94,7 @@ export function PhaseContent({ currentPhase, items, studentId }: PhaseContentPro
         </div>
         <div className="w-full h-2 rounded-full bg-border overflow-hidden">
           <div
-            className="h-full rounded-full bg-accent transition-all duration-500"
+            className="h-full rounded-full bg-accent transition-all duration-200"
             style={{ width: `${overallPercentage}%` }}
           />
         </div>
@@ -116,7 +137,7 @@ export function PhaseContent({ currentPhase, items, studentId }: PhaseContentPro
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-border overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${phaseComplete ? "bg-emerald-400" : "bg-accent"}`}
+                    className={`h-full rounded-full transition-all duration-200 ${phaseComplete ? "bg-emerald-400" : "bg-accent"}`}
                     style={{ width: `${phasePercentage}%` }}
                   />
                 </div>
@@ -141,6 +162,7 @@ export function PhaseContent({ currentPhase, items, studentId }: PhaseContentPro
                   text={item.text}
                   completed={item.completed}
                   studentId={studentId}
+                  onToggle={handleItemToggle}
                 />
               ))
             )}

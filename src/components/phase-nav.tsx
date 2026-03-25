@@ -87,7 +87,7 @@ export function PhaseNav({
             {stats.total > 0 && (
               <div className="w-full h-1 rounded-full bg-border overflow-hidden mt-0.5">
                 <div
-                  className={`h-full rounded-full transition-all ${isComplete ? "bg-emerald-400" : "bg-accent"}`}
+                  className={`h-full rounded-full transition-all duration-200 ${isComplete ? "bg-emerald-400" : "bg-accent"}`}
                   style={{ width: `${percentage}%` }}
                 />
               </div>

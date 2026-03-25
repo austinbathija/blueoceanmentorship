@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { toggleCompletion, toggleCompletionForStudent } from "@/app/actions/dashboard";
 
 interface ChecklistItemRowProps {
@@ -8,20 +8,21 @@ interface ChecklistItemRowProps {
   text: string;
   completed: boolean;
   studentId?: string;
+  onToggle?: (itemId: string, newValue: boolean) => void;
 }
 
 export function ChecklistItemRow({
   id,
   text,
-  completed: initialCompleted,
+  completed,
   studentId,
+  onToggle,
 }: ChecklistItemRowProps) {
-  const [completed, setCompleted] = useState(initialCompleted);
   const [isPending, startTransition] = useTransition();
 
   function handleToggle() {
     const newValue = !completed;
-    setCompleted(newValue);
+    onToggle?.(id, newValue);
 
     startTransition(async () => {
       try {
@@ -31,7 +32,7 @@ export function ChecklistItemRow({
           await toggleCompletion(id, newValue);
         }
       } catch {
-        setCompleted(!newValue);
+        onToggle?.(id, !newValue);
       }
     });
   }
