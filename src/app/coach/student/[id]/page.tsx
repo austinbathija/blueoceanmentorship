@@ -80,7 +80,7 @@ export default async function StudentDetailPage({ params }: Props) {
           <div className="rounded-lg border border-border bg-card p-4 space-y-2">
             {student.mentorshipGuideUrl && (
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted w-36 shrink-0">Mentorship Guide</span>
+                <span className="text-sm font-medium text-muted w-36 shrink-0">Shared Google Drive</span>
                 <a href={student.mentorshipGuideUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400 hover:underline truncate">
                   {student.mentorshipGuideUrl}
                 </a>

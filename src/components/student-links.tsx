@@ -99,7 +99,7 @@ export function StudentLinks({ mentorshipGuideUrl, storeUrl, miroUrl }: StudentL
       <h3 className="text-sm font-semibold text-foreground mb-2">Your Links</h3>
 
       <LinkField
-        label="Mentorship Guide"
+        label="Shared Google Drive"
         value={guide}
         placeholder="https://docs.google.com/..."
         onSave={(v) => {
