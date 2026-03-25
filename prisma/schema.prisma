@@ -18,6 +18,7 @@ model User {
   mentorshipGuideUrl String?
   storeUrl           String?
   miroUrl            String?
+  dateJoined         DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
