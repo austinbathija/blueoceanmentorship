@@ -66,7 +66,7 @@ export default async function CoachPage() {
                     </div>
                     <div className="w-24 h-2 rounded-full bg-border overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-accent transition-all duration-200"
+                        className={`h-full rounded-full transition-all duration-200 ${percentage === 100 ? "bg-emerald-400" : "bg-accent"}`}
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
